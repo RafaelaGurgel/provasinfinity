@@ -1,0 +1,140 @@
+:root {
+    --font-size-header: 1.5rem;
+    --font-size-nav: 1rem;
+    --font-size-product-title: 1.2rem;
+    --font-size-product-desc: 1.1rem;
+    --spacing-header-padding: 15px;
+    --spacing-gap: 20px;
+    --spacing-card-padding: 20px;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --font-size-header: 1.2rem;
+        --font-size-nav: 0.9rem;
+        --font-size-product-title: 1rem;
+        --font-size-product-desc: 0.9rem;
+        --spacing-header-padding: 10px;
+        --spacing-gap: 15px;
+        --spacing-card-padding: 15px;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: rgb(116, 199, 247);
+    color: rgb(12, 3, 51);
+    padding: var(--spacing-header-padding);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Rubik Vinyl", serif;
+}
+
+header .logo {
+    font-size: var(--font-size-header);
+    font-weight: bold;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: var(--spacing-gap);
+}
+
+header nav ul li a {
+    color: #030303;
+    text-decoration: none;
+    font-size: var(--font-size-nav);
+    display: flex;
+    align-items: center;
+}
+
+header nav ul li a i {
+    margin-right: 8px;
+}
+
+main {
+    padding: 20px;
+}
+
+.product-list {
+    display: flex;
+    gap: var(--spacing-gap);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.product-card {
+    background-color: rgb(116, 199, 247);
+    width: 250px;
+    padding: var(--spacing-card-padding);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.product-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.product-info {
+    margin-top: 15px;
+}
+
+.product-info h3 {
+    font-size: var(--font-size-product-title);
+    margin-bottom: 10px;
+}
+
+.product-info p {
+    font-size: var(--font-size-product-desc);
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.product-info button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-info button:hover {
+    background-color: #f0a500;
+}
+
+footer {
+    background-color: #040227;
+    color: #040e69;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer .social-icons {
+    margin-top: 10px;
+}
+
+footer .social-icons .social-icon {
+    font-size: 24px;
+    color: rgb(116, 199, 247);
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+footer .social-icons .social-icon:hover {
+    color: #007bff;
+}
