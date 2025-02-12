@@ -1,0 +1,19 @@
+let a = Number(prompt("Digite o primeiro número:"));
+let b = Number(prompt("Digite o segundo número:"));
+let operacao = prompt("Escolha uma operação: soma, subtração ou multiplicação");
+
+if (!isNaN(a) && !isNaN(b)) {
+    let resultado = "";
+    if (operacao === "soma") {
+        resultado = `Soma: ${a + b}`;
+    } else if (operacao === "subtração") {
+        resultado = `Subtração: ${a - b}`;
+    } else if (operacao === "multiplicação") {
+        resultado = `Multiplicação: ${a * b}`;
+    } else {
+        resultado = "Operação inválida.";
+    }
+    alert(resultado);
+} else {
+    alert("Por favor, insira números válidos.");
+}
