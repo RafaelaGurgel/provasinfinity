@@ -1,0 +1,32 @@
+//Prezado monitor, segue o código em Javascrip. Logo abaixo está o HTML também. 
+
+
+let idade = parseInt(prompt("Digite sua idade:"));
+let status = prompt("Você está registrado? (sim/não)").toLowerCase();
+
+
+let maiorDeIdade = idade >= 18;
+let registrado = status === "sim";
+
+
+switch (status) {
+    case "sim": console.log("Bem-vindo!"); break;
+    case "não": console.log("Complete seu registro."); break;
+    default: console.log("Status desconhecido.");
+}
+
+console.log(maiorDeIdade && registrado ? "Acesso completo." : "Acesso limitado.");
+
+_____________________________________________________________________________________________________________________________
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segunda aula - JAVASCRIPT</title>
+</head>
+<body>
+
+    <script src="provaJS2.js"></script>
+</body>
+</html>
