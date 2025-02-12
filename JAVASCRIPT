@@ -1,3 +1,5 @@
+//Prezado monitor: segue o Código em Javascrip. Logo abaixo dele, coloquei o HTML também.
+
 let a = Number(prompt("Digite o primeiro número:"));
 let b = Number(prompt("Digite o segundo número:"));
 let operacao = prompt("Escolha uma operação: soma, subtração ou multiplicação");
@@ -15,5 +17,24 @@ if (!isNaN(a) && !isNaN(b)) {
     }
     alert(resultado);
 } else {
-    alert("Por favor, insira números válidos.");
+    alert("Insira números válidos.");
 }
+
+__________________________________________________________________________________________________
+Código em HTML:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primeira aula - JAVASCRIPT</title>
+</head>
+<body>
+
+    <script src="provaJS1.js"></script>
+</body>
+</html>
+
+
+
