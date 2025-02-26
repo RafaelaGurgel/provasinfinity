@@ -1,0 +1,81 @@
+// Prezado monitor: o código está unificado em HTML para facilitar a execução. O CSS está na tag <style> e o js está na tag <script>. Quis adicionar botões para deixar a interação melhor. //
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coleta de Dados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        button {
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #e9ecef;
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Coleta de Dados</h2>
+        <button onclick="coletarDados()">Iniciar Coleta</button>
+        <ul id="listaNomes"></ul>
+        <p id="saudacoes"></p>
+    </div>
+
+    <script>
+        function coletarDados() {
+            const dados = [];
+            while (true) {
+                let entrada = prompt("Digite um nome (ou 'sair' para finalizar):");
+                if (!entrada || entrada.toLowerCase() === 'sair') {
+                    break;
+                }
+                dados.push(entrada);
+            }
+
+            const lista = document.getElementById("listaNomes");
+            lista.innerHTML = "";
+            for (let i = 0; i < dados.length; i++) {
+                const li = document.createElement("li");
+                li.textContent = `${i + 1}: ${dados[i]}`;
+                lista.appendChild(li);
+            }
+
+            const saudacoes = document.getElementById("saudacoes");
+            saudacoes.innerHTML = "<strong>Saudações:</strong> " + dados.map(nome => `Bem-vindo(a), ${nome}!`).join("<br>");
+        }
+    </script>
+</body>
+</html>
