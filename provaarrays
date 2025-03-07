@@ -1,0 +1,92 @@
+<!-- Prezado monitor, o arquivo de js está inserido dentro da tag script para facilitar a correção -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Prova Infinity Arrays </title>
+// Prezado monitor, o arquivo de js está inserido dentro da tag script para facilidar a correção //
+</head>
+<body>
+    <h1> Minha Lista de Compras</h1>
+
+<script>
+const lista = [];
+function menu() {
+let opcao;
+do {
+
+opcao = prompt(` Sua Lista de Compras
+1- Adicionar item
+2- Remover item
+3- Ver lista
+4- Editar item
+5- Sair
+Escolha uma opção:`);
+
+
+ const opcoes = {
+'1': add,
+'2': remover,
+'3': verLista,
+'4': editar,
+'5': () => 
+
+alert('Obrigada pela Preferência!'),
+};
+
+ opcoes[opcao] ? opcoes[opcao]() : alert('❌ Opção inválida!');
+ } while (opcao !== '5');
+}
+
+function add() {
+const item = prompt('Digite o item para adicionar:');
+ if (item) {
+  lista.push(item);
+ alert(`✅ ${item} foi adicionado!`);
+ } else {
+alert('❌ Ação cancelada.');
+  }
+ }
+
+function remover() {
+if (!lista.length) return alert('⚠️ A lista está vazia!');
+
+const indice = prompt(`${verLista()}\n Informe o índice do item que deseja remover:`);
+if (indice >= 0 && indice < lista.length) {
+ alert(` ${lista.splice(indice, 1)} foi removido!`);
+} else {
+ alert('❌ Índice inválido!');
+}
+}
+
+function verLista() {
+const msg = lista.length
+ ? ' Itens na sua lista:\n' + lista.map((item, i) => `${i}️⃣ - ${item}`).join('\n'): 
+ '⚠️ Sua lista está vazia!';
+alert(msg);
+ return msg;
+}
+
+function editar() {
+if (!lista.length) return alert('⚠️ A lista está vazia!');
+
+const indice = prompt(`${verLista()}\n Informe o índice do item que deseja editar:`);
+if (indice >= 0 && indice < lista.length) {
+const novoItem = prompt(' Digite o novo nome do item:', lista[indice]);
+ if (novoItem) {
+lista[indice] = novoItem;
+ alert('✅ Atualizado!');
+} else {
+ alert('❌ Ação cancelada.');
+ }
+} else {
+alert('❌ Índice inválido!');
+}
+}
+menu();
+
+    </script>
+</body>
+</html>
