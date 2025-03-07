@@ -1,0 +1,120 @@
+<!-- Prezado monitor, o arquivo de js está inserido dentro da tag script para facilitar a correção -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prova JSIA - Revisão</title>
+</head>
+
+<body>
+<h1>Minha Lista de Tarefas</h1>
+
+<script>
+let tarefas = [];
+function mostrarMenu() {
+let opcao;
+do {
+
+opcao = prompt(`===== MENU =====
+1 - Adicionar nova tarefa
+2 - Remover tarefa existente
+3 - Ver todas as tarefas
+4 - Marcar tarefa como concluída
+5 - Sair do programa
+
+Digite o número da opção desejada:`);
+
+switch (opcao) {
+case '1':
+adicionarTarefa();
+break;
+case '2':
+removerTarefa();
+break;
+case '3':
+listarTarefas();
+break;
+case '4':
+marcarComoConcluida();
+break;
+case '5':
+alert('Até mais! Volte sempre :)');
+break;
+default:
+alert('Opção inválida! Tente novamente.');
+}
+} while (opcao !== '5');
+}
+
+function adicionarTarefa() {
+const novaTarefa = prompt('Digite a nova tarefa:');
+
+if (novaTarefa) {
+tarefas.push(novaTarefa);
+alert(`Tarefa "${novaTarefa}" adicionada com sucesso!`);
+} else {
+alert('Operação cancelada. Nenhuma tarefa foi adicionada.');
+}
+}
+
+function listarTarefas() {
+if (tarefas.length === 0) {
+alert('Sua lista de tarefas está vazia!');
+return;
+}
+
+let listaFormatada = '===== SUAS TAREFAS =====\n';
+tarefas.forEach((tarefa, indice) => {
+listaFormatada += `${indice + 1}. ${tarefa}\n`;
+});
+
+alert(listaFormatada);
+}
+
+function removerTarefa() {
+if (tarefas.length === 0) {
+alert('Não há tarefas para remover!');
+return;
+}
+
+const indice = parseInt(prompt('Digite o número da tarefa que deseja remover:')) - 1;
+
+if (isNaN(indice) || indice < 0 || indice >= tarefas.length) {
+alert('Tente novamente.');
+return;
+}
+
+const tarefaRemovida = tarefas.splice(indice, 1);
+alert(`Tarefa "${tarefaRemovida}" removida com sucesso!`);
+}
+
+// Função para marcar tarefas como concluídas
+function marcarComoConcluida() {
+if (tarefas.length === 0) {
+alert('Não há tarefas para marcar!');
+return;
+}
+
+const indice = parseInt(prompt('Digite o número da tarefa concluída:')) - 1;
+
+if (isNaN(indice) || indice < 0 || indice >= tarefas.length) {
+alert('Tente novamente.');
+return;
+}
+
+if (!tarefas[indice].includes('✅')) {
+tarefas[indice] = '✅ ' + tarefas[indice];
+alert('Parabéns! Tarefa marcada como concluída!');
+} else {
+alert('Esta tarefa já está concluída!');
+}
+}
+
+mostrarMenu();
+</script>
+</body>
+
+</html>
+
