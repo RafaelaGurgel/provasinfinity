@@ -1,0 +1,162 @@
+<!-- Prezado monitor: o código está unificado em HTML para facilitar a execução. O CSS está na tag <style> e o js está na tag <script> -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prova JSIA - Objetos Literais </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .grupo {
+            margin-bottom: 15px;
+        }
+        
+        input {
+            padding: 8px;
+            margin: 5px;
+            width: 200px;
+        }
+        
+        button {
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .livro {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        
+        #mensagem {
+            margin: 15px 0;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📚 Biblioteca de Livros</h1>
+    
+    <div class="grupo">
+        <input type="text" id="titulo" placeholder="Título"><br>
+        <input type="text" id="autor" placeholder="Autor"><br>
+        <input type="number" id="ano" placeholder="Ano"><br>
+        <button onclick="adicionarLivro()">Adicionar Livro</button>
+    </div>
+
+    <div class="grupo">
+        <input type="text" id="busca" placeholder="Buscar livro">
+        <button onclick="buscarLivro()">Buscar</button>
+        <button onclick="mostrarLivros()">Mostrar Todos</button>
+        <button onclick="calcularMedia()">Média de Idade</button>
+    </div>
+
+    <div id="mensagem"></div>
+    <div id="livros"></div>
+
+    <script>
+    
+        let biblioteca = JSON.parse(localStorage.getItem('biblioteca')) || [];
+
+        // Função para adicionar livro
+        function adicionarLivro() {
+            const titulo = document.getElementById('titulo').value;
+            const autor = document.getElementById('autor').value;
+            const ano = document.getElementById('ano').value;
+
+            if(titulo && autor && ano) {
+                biblioteca.push({
+                    titulo: titulo,
+                    autor: autor,
+                    ano: ano
+                });
+                
+                localStorage.setItem('biblioteca', JSON.stringify(biblioteca));
+                mostrarMensagem('Livro adicionado com sucesso!', 'verde');
+                document.getElementById('titulo').value = '';
+                document.getElementById('autor').value = '';
+                document.getElementById('ano').value = '';
+            } else {
+                mostrarMensagem('Preencha todos os campos!', 'vermelho');
+            }
+        }
+
+      
+        function buscarLivro() {
+            const termo = document.getElementById('busca').value.toLowerCase();
+            const resultados = [];
+            
+            for(let i = 0; i < biblioteca.length; i++) {
+                if(biblioteca[i].titulo.toLowerCase().includes(termo)) {
+                    resultados.push(biblioteca[i]);
+                }
+            }
+            
+            mostrarLivros(resultados);
+        }
+
+        function mostrarLivros(livros = biblioteca) {
+            let html = '';
+            for(let i = 0; i < livros.length; i++) {
+                html += `<div class="livro">
+                    "${livros[i].titulo}" por ${livros[i].autor} (${livros[i].ano})
+                </div>`;
+            }
+            document.getElementById('livros').innerHTML = html;
+        }
+
+
+        function calcularMedia() {
+            if(biblioteca.length === 0) {
+                mostrarMensagem('Nenhum livro na biblioteca!', 'vermelho');
+                return;
+            }
+            
+            let total = 0;
+            const anoAtual = new Date().getFullYear();
+            
+            for(let i = 0; i < biblioteca.length; i++) {
+                total += (anoAtual - biblioteca[i].ano);
+            }
+            
+            const media = total / biblioteca.length;
+            mostrarMensagem(`Média de idade: ${media.toFixed(1)} anos`, 'azul');
+        }
+
+     
+        function mostrarMensagem(texto, tipo) {
+            const div = document.getElementById('mensagem');
+            div.textContent = texto;
+            div.className = tipo;
+        }
+
+       
+        if(biblioteca.length === 0) {
+            biblioteca = [
+                {titulo: "O Senhor dos Anéis", autor: "J.R.R. Tolkien", ano: 1954},
+                {titulo: "1984", autor: "George Orwell", ano: 1949},
+                {titulo: "Dom Casmurro", autor: "Machado de Assis", ano: 1899}
+            ];
+            localStorage.setItem('biblioteca', JSON.stringify(biblioteca));
+        }
+
+        mostrarLivros();
+    </script>
+</body>
+</html>
