@@ -1,0 +1,185 @@
+<!-- Prezado monitor: o código está unificado em HTML para facilitar a execução. O CSS está na tag <style> e o js está na tag <script> -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Produtos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        input, button {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .results {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerenciador de Produtos</h1>
+
+        
+        <div class="section">
+            <h2>Cadastrar Novo Produto</h2>
+            <input type="text" id="nome" placeholder="Nome do produto">
+            <input type="number" id="preco" step="0.01" placeholder="Preço">
+            <input type="text" id="categoria" placeholder="Categoria">
+            <button onclick="cadastrarProduto()">Cadastrar</button>
+        </div>
+
+      
+        <div class="section">
+            <h2>Buscar Produto</h2>
+            <input type="text" id="busca" placeholder="Nome do produto">
+            <button onclick="buscarProdutoInterface()">Buscar</button>
+            <div class="results" id="resultadoBusca"></div>
+        </div>
+
+        <div class="section">
+            <h2>Filtrar por Categoria</h2>
+            <input type="text" id="filtroCategoria" placeholder="Categoria">
+            <button onclick="filtrarCategoriaInterface()">Filtrar</button>
+            <div class="results" id="resultadoFiltro"></div>
+        </div>
+
+        
+        <div class="section">
+            <h2>Resumo Estatístico</h2>
+            <button onclick="mostrarResumo()">Mostrar Resumo</button>
+            <div class="results" id="resumoEstatistico"></div>
+        </div>
+
+      
+        <div class="section">
+            <h2>Todos os Produtos</h2>
+            <button onclick="listarTodos()">Atualizar Lista</button>
+            <div class="results" id="listaProdutos"></div>
+        </div>
+    </div>
+
+    <script>
+        class Produto {
+            constructor(nome, preco, categoria) {
+                this.nome = nome;
+                this.preco = preco;
+                this.categoria = categoria;
+            }
+
+            exibirDetalhes() {
+                return `Nome: ${this.nome} | Preço: R$${this.preco.toFixed(2)} | Categoria: ${this.categoria}`;
+            }
+        }
+
+        const produtos = [];
+
+        function adicionarProduto(nome, preco, categoria) {
+            const novoProduto = new Produto(nome, parseFloat(preco), categoria);
+            produtos.push(novoProduto);
+        }
+
+        // Funções de Interface
+        function cadastrarProduto() {
+            const nome = document.getElementById('nome').value;
+            const preco = document.getElementById('preco').value;
+            const categoria = document.getElementById('categoria').value;
+
+            if(nome && preco && categoria) {
+                adicionarProduto(nome, preco, categoria);
+                alert('Produto cadastrado com sucesso!');
+                document.getElementById('nome').value = '';
+                document.getElementById('preco').value = '';
+                document.getElementById('categoria').value = '';
+            } else {
+                alert('Preencha todos os campos!');
+            }
+        }
+
+        function buscarProdutoInterface() {
+            const termo = document.getElementById('busca').value;
+            const resultado = produtos.find(produto => 
+                produto.nome.toLowerCase().includes(termo.toLowerCase())
+            );
+            
+            const divResultado = document.getElementById('resultadoBusca');
+            divResultado.innerHTML = resultado 
+                ? resultado.exibirDetalhes() 
+                : 'Nenhum produto encontrado';
+        }
+
+        function filtrarCategoriaInterface() {
+            const categoria = document.getElementById('filtroCategoria').value;
+            const resultados = produtos.filter(produto => 
+                produto.categoria.toLowerCase().includes(categoria.toLowerCase())
+            );
+            
+            const divResultado = document.getElementById('resultadoFiltro');
+            divResultado.innerHTML = resultados.length > 0
+                ? resultados.map(p => p.exibirDetalhes()).join('<br>')
+                : 'Nenhum produto nesta categoria';
+        }
+
+        function mostrarResumo() {
+            const total = produtos.reduce((acc, produto) => acc + produto.preco, 0);
+            const resumo = {
+                totalProdutos: produtos.length,
+                investimentoTotal: total,
+                precoMedio: produtos.length > 0 ? total / produtos.length : 0
+            };
+
+            const divResumo = document.getElementById('resumoEstatistico');
+            divResumo.innerHTML = `
+                Total de produtos: ${resumo.totalProdutos}<br>
+                Investimento total: R$${resumo.investimentoTotal.toFixed(2)}<br>
+                Preço médio: R$${resumo.precoMedio.toFixed(2)}
+            `;
+        }
+
+        function listarTodos() {
+            const divLista = document.getElementById('listaProdutos');
+            divLista.innerHTML = produtos.length > 0
+                ? produtos.map(p => p.exibirDetalhes()).join('<br>')
+                : 'Nenhum produto cadastrado';
+        }
+    </script>
+</body>
+</html>
