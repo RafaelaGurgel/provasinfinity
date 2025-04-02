@@ -1,0 +1,291 @@
+<!-- Prezado monitor: o código está unificado em HTML para facilitar a execução. O CSS está na tag <style> e o js está na tag <script> -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Organizador</title>
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --success: #6DD400;
+            --warning: #F5A623;
+            --danger: #D0021B;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #357ABD;
+        }
+
+        #listaTarefas {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .task-item.concluida {
+            background: #f8f9fa;
+            opacity: 0.7;
+        }
+
+        .task-item.concluida .task-text {
+            text-decoration: line-through;
+        }
+
+        .task-text {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-edit {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .priority-high {
+            border-left: 4px solid var(--danger);
+        }
+
+        .priority-medium {
+            border-left: 4px solid var(--warning);
+        }
+
+        .priority-low {
+            border-left: 4px solid var(--success);
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #e0e0e0;
+            border: none;
+            cursor: pointer;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input-group">
+            <input type="text" id="tarefaInput" placeholder="Digite uma nova tarefa...">
+            <button class="btn btn-primary" id="adicionar">➕ Adicionar</button>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Todas</button>
+            <button class="filter-btn" data-filter="completed">Concluídas</button>
+            <button class="filter-btn" data-filter="high">Prioridade Alta</button>
+        </div>
+
+        <ul id="listaTarefas"></ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            
+           
+            const taskInput = document.getElementById('tarefaInput');
+            const addBtn = document.getElementById('adicionar');
+            const taskList = document.getElementById('listaTarefas');
+            const filters = document.querySelectorAll('.filter-btn');
+
+            
+            addBtn.addEventListener('click', addTask);
+            taskInput.addEventListener('keypress', (e) => e.key === 'Enter' && addTask());
+            filters.forEach(filter => filter.addEventListener('click', filterTasks));
+
+           
+            renderTasks();
+
+            function addTask() {
+                const text = taskInput.value.trim();
+                if (text) {
+                    const task = {
+                        id: Date.now(),
+                        text,
+                        completed: false,
+                        priority: 'low'
+                    };
+                    tasks.push(task);
+                    saveAndRender();
+                    taskInput.value = '';
+                }
+            }
+
+            function renderTasks() {
+                taskList.innerHTML = '';
+                tasks.forEach(task => {
+                    const li = document.createElement('li');
+                    li.className = `task-item ${task.completed ? 'concluida' : ''} priority-${task.priority}`;
+                    li.innerHTML = `
+                        <span class="task-text">${task.text}</span>
+                        <div class="task-actions">
+                            <button class="action-btn btn-success" onclick="toggleComplete(${task.id})">✓</button>
+                            <button class="action-btn btn-warning" onclick="togglePriority(${task.id})">⚠</button>
+                            <button class="action-btn btn-edit" onclick="editTask(${task.id})">✎</button>
+                            <button class="action-btn btn-danger" onclick="deleteTask(${task.id})">✕</button>
+                        </div>
+                    `;
+                    taskList.appendChild(li);
+                });
+            }
+
+            window.toggleComplete = (id) => {
+                tasks = tasks.map(task => 
+                    task.id === id ? {...task, completed: !task.completed} : task
+                );
+                saveAndRender();
+            };
+
+            window.togglePriority = (id) => {
+                const priorities = ['low', 'medium', 'high'];
+                tasks = tasks.map(task => 
+                    task.id === id ? {...task, 
+                        priority: priorities[(priorities.indexOf(task.priority) + 1) % 3]
+                    } : task
+                );
+                saveAndRender();
+            };
+
+            window.editTask = (id) => {
+                const newText = prompt('Editar tarefa:', tasks.find(t => t.id === id).text);
+                if (newText !== null) {
+                    tasks = tasks.map(task => 
+                        task.id === id ? {...task, text: newText.trim()} : task
+                    );
+                    saveAndRender();
+                }
+            };
+
+            window.deleteTask = (id) => {
+                tasks = tasks.filter(task => task.id !== id);
+                saveAndRender();
+            };
+
+            function filterTasks(e) {
+                const filter = e.target.dataset.filter;
+                filters.forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                taskList.querySelectorAll('.task-item').forEach(item => {
+                    const completed = item.classList.contains('concluida');
+                    const priority = item.classList.contains(`priority-${filter}`);
+                    
+                    switch(filter) {
+                        case 'completed':
+                            item.style.display = completed ? 'flex' : 'none';
+                            break;
+                        case 'high':
+                            item.style.display = priority ? 'flex' : 'none';
+                            break;
+                        default:
+                            item.style.display = 'flex';
+                    }
+                });
+            }
+
+            function saveAndRender() {
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                renderTasks();
+            }
+        });
+    </script>
+</body>
+</html>
