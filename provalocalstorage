@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notas Modernas</title>
+  <style>
+    :root {
+      --primary: #6d28d9;
+      --secondary: #4c1d95;
+      --danger: #dc2626;
+      --background: #f8fafc;
+      --text: #1e293b;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      padding: 2rem 1rem;
+      background: var(--background);
+      max-width: 600px;
+      margin: 0 auto;
+      color: var(--text);
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(109,40,217,0.1);
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--secondary);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      opacity: 0.9;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+
+    li:hover {
+      transform: translateY(-2px);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+    }
+
+    .empty-state img {
+      width: 150px;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .input-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📝 Notas Modernas</h1>
+
+    <div class="input-group">
+      <input 
+        type="text" 
+        id="tituloNota" 
+        placeholder="Digite sua nota..."
+        autofocus
+      >
+      <button onclick="adicionarNota()" class="btn-primary">
+        Adicionar
+      </button>
+    </div>
+
+    <ul id="listaNotas"></ul>
+
+    <div class="empty-state" id="emptyState">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTIgMTF2NCIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iNyIgcj0iMSIvPjxwYXRoIGQ9Ik0zIDloMThhMiAyIDAgMCAxIDIgMnY5YTIgMiAwIDAgMS0yIDJIM2EyIDIgMCAwIDEtMi0ydi05YTIgMiAwIDAgMSAyLTJ6Ii8+PC9zdmc+">
+      <p>Nenhuma nota encontrada</p>
+      <p>Comece adicionando sua primeira nota!</p>
+    </div>
+  </div>
+
+  <script>
+    function atualizarEstadoVazio() {
+      const emptyState = document.getElementById('emptyState')
+      const notas = carregarNotas()
+      emptyState.style.display = notas.length > 0 ? 'none' : 'block'
+    }
+
+    function carregarNotas() {
+      return JSON.parse(localStorage.getItem("notas") || "[]")
+    }
+
+    function salvarNotas(notas) {
+      localStorage.setItem("notas", JSON.stringify(notas))
+    }
+
+    function atualizarLista() {
+      const lista = document.getElementById("listaNotas")
+      lista.innerHTML = ''
+      const notas = carregarNotas()
+
+      notas.forEach(nota => {
+        const li = document.createElement('li')
+        li.innerHTML = `
+          <span>${nota.titulo}</span>
+          <button onclick="removerNota('${nota.titulo}')" class="btn-danger">
+            🗑️ Remover
+          </button>
+        `
+        lista.appendChild(li)
+      })
+
+      atualizarEstadoVazio()
+    }
+
+    function adicionarNota() {
+      const input = document.getElementById('tituloNota')
+      const titulo = input.value.trim()
+
+      if (!titulo) {
+        alert('Por favor, digite o conteúdo da nota.')
+        input.focus()
+        return
+      }
+
+      const notas = carregarNotas()
+
+      if (notas.some(n => n.titulo === titulo)) {
+        alert('Já existe uma nota com este conteúdo!')
+        return
+      }
+
+      notas.push({ titulo })
+      salvarNotas(notas)
+      input.value = ''
+      input.focus()
+      atualizarLista()
+    }
+
+    function removerNota(titulo) {
+      if (!confirm('Tem certeza que deseja remover esta nota?')) return
+      const notas = carregarNotas().filter(n => n.titulo !== titulo)
+      salvarNotas(notas)
+      atualizarLista()
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      atualizarLista()
+      document.getElementById('tituloNota').focus()
+    })
+  </script>
+</body>
+</html>
