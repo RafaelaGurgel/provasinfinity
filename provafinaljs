@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Usuário</title>
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --success-color: #2ecc71;
+      --error-color: #e74c3c;
+      --border-radius: 4px;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f8f9fa;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      margin: 2rem 0;
+    }
+
+    form {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(44, 76, 80, 0.1);
+    }
+
+    button {
+      width: 100%;
+      padding: 1rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #34495e;
+    }
+
+    .error {
+      color: var(--error-color);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .error.active {
+      display: block;
+    }
+
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      margin: 1rem 0;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      display: none;
+    }
+
+    .success.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Usuário</h1>
+  
+  <form id="cadastroForm">
+    <div class="form-group">
+      <label for="nome">Nome completo</label>
+      <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo">
+      <div class="error" id="erroNome"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="usuario">Nome de usuário</label>
+      <input type="text" id="usuario" name="usuario" placeholder="Escolha um nome de usuário">
+      <div class="error" id="erroUsuario"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" name="senha" placeholder="Mínimo 6 caracteres">
+      <div class="error" id="erroSenha"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" placeholder="exemplo@email.com">
+      <div class="error" id="erroEmail"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="dataNascimento">Data de nascimento</label>
+      <input type="date" id="dataNascimento" name="dataNascimento">
+      <div class="error" id="erroIdade"></div>
+    </div>
+
+    <button type="submit">Criar conta</button>
+  </form>
+
+  <div class="success" id="mensagemSucesso"></div>
+
+  <script>
+    document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Resetar estados anteriores
+      document.querySelectorAll('.error').forEach(el => {
+        el.classList.remove('active');
+        el.textContent = '';
+      });
+      document.getElementById('mensagemSucesso').classList.remove('active');
+
+      try {
+        const campos = {
+          nome: document.getElementById('nome').value.trim(),
+          usuario: document.getElementById('usuario').value.trim(),
+          senha: document.getElementById('senha').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          dataNascimento: document.getElementById('dataNascimento').value
+        };
+
+        validarCampos(campos);
+        
+        // Feedback de sucesso
+        const successElement = document.getElementById('mensagemSucesso');
+        successElement.textContent = 'Cadastro realizado com sucesso!';
+        successElement.classList.add('active');
+        
+        // Resetar formulário
+        this.reset();
+        setTimeout(() => successElement.classList.remove('active'), 5000);
+      } catch (erro) {
+        if (erro.campo && erro.message) {
+          const errorElement = document.getElementById(`erro${erro.campo}`);
+          errorElement.textContent = erro.message;
+          errorElement.classList.add('active');
+        } else {
+          alert(`Erro: ${erro.message}`);
+        }
+      }
+    });
+
+    function validarCampos({ nome, usuario, senha, email, dataNascimento }) {
+      // Validação do nome
+      if (!nome) throw { campo: 'Nome', message: 'Por favor, informe seu nome completo' };
+      if (nome.length < 3) throw { campo: 'Nome', message: 'O nome deve ter pelo menos 3 caracteres' };
+
+      // Validação do usuário
+      if (!usuario) throw { campo: 'Usuario', message: 'Escolha um nome de usuário' };
+      if (usuario.length < 4) throw { campo: 'Usuario', message: 'O usuário deve ter pelo menos 4 caracteres' };
+
+      // Validação da senha
+      if (!senha) throw { campo: 'Senha', message: 'A senha é obrigatória' };
+      if (senha.length < 6) throw { campo: 'Senha', message: 'A senha deve ter no mínimo 6 caracteres' };
+
+      // Validação do e-mail
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email) throw { campo: 'Email', message: 'O e-mail é obrigatório' };
+      if (!emailRegex.test(email)) throw { campo: 'Email', message: 'Por favor, insira um e-mail válido' };
+
+      // Validação da data de nascimento
+      if (!dataNascimento) throw { campo: 'Idade', message: 'A data de nascimento é obrigatória' };
+      
+      const idade = calcularIdade(new Date(dataNascimento));
+      if (idade < 18) throw { campo: 'Idade', message: 'Você deve ter pelo menos 18 anos para se cadastrar' };
+    }
+
+    function calcularIdade(dataNasc) {
+      const hoje = new Date();
+      let idade = hoje.getFullYear() - dataNasc.getFullYear();
+      const mesAtual = hoje.getMonth();
+      const mesNasc = dataNasc.getMonth();
+      
+      if (mesAtual < mesNasc || 
+          (mesAtual === mesNasc && hoje.getDate() < dataNasc.getDate())) {
+        idade--;
+      }
+      return idade;
+    }
+  </script>
+</body>
+</html>
