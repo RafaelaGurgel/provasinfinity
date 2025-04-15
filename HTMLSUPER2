@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário de Cadastro</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f0f2f5;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #2d3436;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    form {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #2d3436;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    input:focus {
+      outline: 2px solid #0984e3;
+      border-color: transparent;
+    }
+
+    fieldset {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    legend {
+      padding: 0 0.5rem;
+      color: #2d3436;
+      font-weight: 500;
+    }
+
+    .checkbox-group,
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .checkbox-item,
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    button[type="submit"] {
+      background-color: #0984e3;
+      color: white;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0873c4;
+    }
+
+    button[type="reset"] {
+      background-color: #dfe6e9;
+      color: #2d3436;
+      margin-left: 1rem;
+    }
+
+    button[type="reset"]:hover {
+      background-color: #d2dae0;
+    }
+
+    .required::after {
+      content: "*";
+      color: #e74c3c;
+      margin-left: 3px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 1rem;
+      }
+      
+      form {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Formulário de Cadastro</h1>
+
+  <form action="/enviar-dados" method="post">
+    <!-- Campo de texto -->
+    <div class="form-group">
+      <label for="nome" class="required">Nome:</label>
+      <input type="text" id="nome" name="nome" required>
+    </div>
+
+    <!-- Campo de senha -->
+    <div class="form-group">
+      <label for="senha" class="required">Senha:</label>
+      <input type="password" id="senha" name="senha" required>
+    </div>
+
+    <!-- Campo de e-mail -->
+    <div class="form-group">
+      <label for="email" class="required">E-mail:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+
+    <!-- Lista de checkboxes -->
+    <fieldset>
+      <legend>Selecione seus hobbies:</legend>
+      <div class="checkbox-group">
+        <div class="checkbox-item">
+          <input type="checkbox" id="leitura" name="hobbies" value="leitura">
+          <label for="leitura">Leitura</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="musica" name="hobbies" value="musica">
+          <label for="musica">Música</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="viagem" name="hobbies" value="viagem">
+          <label for="viagem">Viagem</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="esportes" name="hobbies" value="esportes">
+          <label for="esportes">Esportes</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="cinema" name="hobbies" value="cinema">
+          <label for="cinema">Cinema</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Radiobutton com 2 opções -->
+    <fieldset>
+      <legend>Gênero:</legend>
+      <div class="radio-group">
+        <div class="radio-item">
+          <input type="radio" id="feminino" name="genero" value="feminino" required>
+          <label for="feminino">Feminino</label>
+        </div>
+        <div class="radio-item">
+          <input type="radio" id="masculino" name="genero" value="masculino">
+          <label for="masculino">Masculino</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Botões -->
+    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+      <button type="submit">Enviar</button>
+      <button type="reset">Limpar</button>
+    </div>
+  </form>
+</body>
+</html>
