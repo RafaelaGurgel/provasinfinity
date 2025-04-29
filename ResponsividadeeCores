@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prova Responsividade e Cores</title>
+  <style>
+ 
+    :root {
+      --cor-fundo: #f9f9f9;
+      --cor-texto: #222;
+      --cor-primaria: #3498db;
+      --cor-secundaria: #e67e22;
+      --cor-destaque: #2ecc71;
+      --cor-borda: #ddd;
+    }
+
+    [data-tema="escuro"] {
+      --cor-fundo: #121212;
+      --cor-texto: #eee;
+      --cor-primaria: #9b59b6;
+      --cor-secundaria: #27ae60;
+      --cor-destaque: #f1c40f;
+      --cor-borda: #333;
+    }
+
+    [data-tema="natureza"] {
+      --cor-fundo: #f3f9ec;
+      --cor-texto: #2c3e50;
+      --cor-primaria: #27ae60;
+      --cor-secundaria: #2ecc71;
+      --cor-destaque: #e67e22;
+      --cor-borda: #bdc3c7;
+    }
+
+    [data-tema="neon"] {
+      --cor-fundo: #1a1a1a;
+      --cor-texto: #fff;
+      --cor-primaria: #ff00ff;
+      --cor-secundaria: #00ffff;
+      --cor-destaque: #ffd700;
+      --cor-borda: #4a4a4a;
+    }
+
+  
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--cor-fundo);
+      color: var(--cor-texto);
+      font-family: 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      padding: 2rem;
+      min-height: 100vh;
+      transition: all 0.3s ease;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      border-bottom: 2px solid var(--cor-borda);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--cor-primaria);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 1rem auto;
+    }
+
+    
+    .botoes-tema {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+
+    .botao-tema {
+      padding: 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.2s, opacity 0.2s;
+      background: var(--cor-primaria);
+      color: white;
+    }
+
+    .botao-tema:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
+
+    .botao-tema[data-tema="escuro"] { background: #9b59b6; }
+    .botao-tema[data-tema="natureza"] { background: #27ae60; }
+    .botao-tema[data-tema="neon"] { background: #ff00ff; }
+    .botao-tema[data-tema="padrao"] { background: #3498db; }
+
+  
+    @media (max-width: 768px) {
+      body {
+        padding: 1.5rem;
+      }
+      
+      .botoes-tema {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .botao-tema {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body data-tema="padrao">
+  <div class="container">
+    <header>
+      <h1> Troque as Cores</h1>
+      <p>
+        Experimente diferentes temas: 
+      </p>
+    </header>
+
+    <div class="botoes-tema">
+      <button class="botao-tema" data-tema="padrao" onclick="mudarTema('padrao')">
+        Tema Padrão
+      </button>
+      <button class="botao-tema" data-tema="escuro" onclick="mudarTema('escuro')">
+        Tema Escuro
+      </button>
+      <button class="botao-tema" data-tema="natureza" onclick="mudarTema('natureza')">
+        Tema Natureza
+      </button>
+      <button class="botao-tema" data-tema="neon" onclick="mudarTema('neon')">
+        Tema Neon
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function mudarTema(tema) {
+      document.body.setAttribute('data-tema', tema);
+      localStorage.setItem('temaSelecionado', tema);
+    }
+
+   
+    const temaSalvo = localStorage.getItem('temaSelecionado');
+    if (temaSalvo) {
+      document.body.setAttribute('data-tema', temaSalvo);
+    }
+  </script>
+</body>
+</html>
