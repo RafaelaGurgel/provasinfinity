@@ -1,0 +1,13 @@
+# Solicita ao usuário que insira um número
+numero = float(input("Digite um número: "))
+
+# Verifica se o número é positivo, negativo ou zero
+if numero > 0:
+    mensagem = "positivo"
+elif numero < 0:
+    mensagem = "negativo"
+else:
+    mensagem = "zero"
+
+# Exibe o resultado usando f-string
+print(f"O número é {mensagem}.")
