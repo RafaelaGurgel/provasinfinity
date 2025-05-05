@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raffy Stream</title>
+
+  <!-- Fontes e ícones -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <!-- Estilo interno -->
+  <style>
+    /* Reset e base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f4f4f4;
+      color: #2c3e50;
+      line-height: 1.6;
+    }
+
+    /* Cabeçalho */
+    header {
+      background: linear-gradient(90deg, #8e44ad, #3498db, #1abc9c);
+      color: white;
+      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+      width: 100%;
+    }
+
+    nav {
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background: white;
+      color: #8e44ad;
+    }
+
+    /* Seções */
+    section {
+      padding: 3rem 1rem;
+    }
+
+    #home {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                  url('https://iili.io/3NcLuKQ.jpg') center/cover no-repeat;
+      color: white;
+      text-align: center;
+      padding: 5rem 1rem;
+    }
+
+    .home-content img {
+      width: 200px;
+      border-radius: 15px;
+      margin-top: 2rem;
+      border: 4px solid white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Cartões */
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .courses {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .card a {
+      display: inline-block;
+      background: #3498db;
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 30px;
+      transition: background 0.3s ease;
+    }
+
+    .card a:hover {
+      background: #2980b9;
+    }
+
+    /* Rodapé */
+    footer {
+      background: #1a1a1a;
+      color: white;
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .platform-card {
+      background: #2c3e50;
+      padding: 2rem;
+      border-radius: 15px;
+      width: 280px;
+    }
+
+    .platform-card h3 {
+      color: white;
+      margin: 1rem 0;
+    }
+
+    .platform-card p {
+      color: #bdc3c7;
+    }
+
+    .footer-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 30px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      margin-top: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .footer-button.twitch {
+      background: #9146ff;
+    }
+
+    .footer-button.youtube {
+      background: #ff0000;
+    }
+
+    .footer-button:hover {
+      filter: brightness(1.1);
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+      nav {
+        justify-content: center;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Áudio de hover -->
+  <audio id="hoverSound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.wav"></audio>
+
+  <!-- Cabeçalho -->
+  <header>
+    <h1>Raffy Stream</h1>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#cursos">Vídeos</a>
+    </nav>
+  </header>
+
+  <!-- Seção Home -->
+  <section id="home">
+    <div class="home-content">
+      <h2>Bem-vindo ao melhor canal de Stream do YouTube</h2>
+      <p>Mortal Kombat 11 | Porradaria | Xingamentos | Modo Rage Ativado</p>
+      <img src="https://iili.io/3Ncjfff.png" alt="Imagem do canal Raffy Stream" />
+      <p style="margin-top: 1rem; color: #eee;">🔥 Canal de gameplays insanas no YouTube! 🔥</p>
+    </div>
+  </section>
+
+  <!-- Sobre -->
+  <section id="sobre">
+    <h2>Sobre Mim</h2>
+    <div class="card" style="max-width: 800px; margin: auto; font-size: 1.1rem;">
+      <p>🎮 Oiê! Eu sou a Raffy — streamer raiz, amante de Mortal Kombat 11 e rainha da porradaria virtual! 💥</p>
+      <p>Criei esse canal pra compartilhar minhas lutas, meus gritos (são muitos 😅) e aquela vibe insana de quem joga com o coração (e às vezes com um pouco de rage também 😡).</p>
+      <p>Se você curte risada, combos marotos, momentos épicos (e fails também 🤡), aqui é o seu lugar!</p>
+      <p>💬 Cada comentário é como um fatality no tédio, então não se acanhe — vem fazer parte da Kombat-krew!</p>
+      <p>🔔 Inscreva-se, ative o sino e prepare o controle: a zoeira nunca acaba por aqui!</p>
+    </div>
+  </section>
+
+  <!-- Seção Vídeos -->
+  <section id="cursos">
+    <h2>Vídeos</h2>
+    <div class="courses">
+      <div class="card">
+        <img src="https://img.youtube.com/vi/iMxRyknW3Bc/hqdefault.jpg" alt="Porradaria e música" />
+        <h3>Porradaria e música</h3>
+        <p>Gameplay de Mortal Kombat 11 com a rainha da gritaria ouvindo Abba.</p>
+        <a href="https://www.youtube.com/watch?v=iMxRyknW3Bc" target="_blank">Assistir no YouTube</a>
+      </div>
+
+      <div class="card">
+        <img src="https://img.youtube.com/vi/c5kaYD3Z8KQ/hqdefault.jpg" alt="Matando Geral com a Sindel" />
+        <h3>Matando Geral com a Sindel</h3>
+        <p>Cabelada e grito pra todo lado.</p>
+        <a href="https://www.youtube.com/watch?v=c5kaYD3Z8KQ&t=70s" target="_blank">Assistir no YouTube</a>
+      </div>
+
+      <div class="card">
+        <img src="https://img.youtube.com/vi/RRkSYBx1pFw/hqdefault.jpg" alt="Humilhação Online" />
+        <h3>Humilhação Online</h3>
+        <p>Fui inventar de jogar com outros jogadores e tomei peia.</p>
+        <a href="https://www.youtube.com/watch?v=RRkSYBx1pFw" target="_blank">Assistir no YouTube</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer>
+    <div class="footer-content">
+      <div class="platform-card">
+        <i class="fab fa-twitch fa-3x"></i>
+        <h3>Acompanhe as Lives</h3>
+        <p>Transmissões ao vivo na Twitch</p>
+        <a href="https://www.twitch.tv/raffygurgel" target="_blank" class="footer-button twitch">
+          <i class="fab fa-twitch"></i> Acessar Twitch
+        </a>
+      </div>
+
+      <div class="platform-card">
+        <i class="fab fa-youtube fa-3x"></i>
+        <h3>Conheça o Canal</h3>
+        <p>Conteúdos exclusivos no YouTube</p>
+        <a href="https://www.youtube.com/@raffystream" target="_blank" class="footer-button youtube">
+          <i class="fab fa-youtube"></i> Ver Canal
+        </a>
+      </div>
+    </div>
+
+    <div class="copyright">
+      <p>&copy; 2024 Raffy Stream. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    const hoverSound = document.getElementById('hoverSound');
+    const navLinks = document.querySelectorAll('nav a');
+
+    navLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        hoverSound.currentTime = 0;
+        hoverSound.play();
+      });
+    });
+  </script>
+</body>
+</html>
