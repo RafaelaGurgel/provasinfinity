@@ -1,0 +1,80 @@
+def obter_numero(mensagem, tipo=float):
+    """Solicita um número ao usuário com tratamento de erros."""
+    while True:
+        try:
+            numero = tipo(input(mensagem))
+            if tipo == int and numero < 1:
+                raise ValueError("O número deve ser positivo")
+            return numero
+        except ValueError as e:
+            print(f"Entrada inválida: {e}. Tente novamente!")
+
+def calcular_media(notas):
+    """Calcula a média aritmética de uma lista de notas."""
+    return sum(notas) / len(notas)
+
+def determinar_status(media, nota_minima=7.0):
+    """Determina o status do aluno com base na média."""
+    return "Aprovado" if media >= nota_minima else "Reprovado"
+
+def obter_notas(num_notas=3):
+    """Coleta as notas do aluno com tratamento de erros."""
+    notas = []
+    for i in range(num_notas):
+        mensagem = f"Digite a {i+1}ª nota: "
+        notas.append(obter_numero(mensagem, float))
+    return notas
+
+def exibir_resultado(aluno):
+    """Exibe os resultados do aluno formatado."""
+    print(f"\n{' RESULTADO ':=^40}")
+    print(f"Nome: {aluno['nome']}")
+    print(f"Notas: {', '.join([f'{n:.1f}' for n in aluno['notas']])}")
+    print(f"Média: {aluno['media']:.2f}")
+    print(f"Status: {aluno['status']}")
+    print('=' * 40)
+
+def main():
+    # Configurações
+    NUM_NOTAS = 3
+    NOTA_MINIMA = 7.0
+
+    # Lista para armazenar dados de todos os alunos
+    alunos = []
+
+    print("\n" + " CADASTRO DE ALUNOS ".center(40, '='))
+    num_alunos = obter_numero("Digite o número de alunos: ", int)
+
+    for i in range(num_alunos):
+        print(f"\nAluno {i+1}/{num_alunos}")
+        nome = input("Nome do aluno: ").strip().title()
+        notas = obter_notas(NUM_NOTAS)
+        media = calcular_media(notas)
+        status = determinar_status(media, NOTA_MINIMA)
+        
+        aluno = {
+            'nome': nome,
+            'notas': notas,
+            'media': media,
+            'status': status
+        }
+        alunos.append(aluno)
+        exibir_resultado(aluno)
+
+    # Cálculo das estatísticas da turma
+    if alunos:
+        medias = [aluno['media'] for aluno in alunos]
+        media_geral = sum(medias) / len(medias)
+        maior_media = max(medias)
+        menor_media = min(medias)
+
+        print("\n" + " ESTATÍSTICAS DA TURMA ".center(40, '='))
+        print(f"Média geral: {media_geral:.2f}")
+        print(f"Maior média: {maior_media:.2f}")
+        print(f"Menor média: {menor_media:.2f}")
+        print('=' * 40)
+    else:
+        print("\nNenhum aluno foi registrado.")
+
+if __name__ == "__main__":
+    main()
