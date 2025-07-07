@@ -1,0 +1,8 @@
+# Lista de frutas nordestinas
+frutas_nordeste = ['umbu', 'cajá', 'graviola', 'acerola', 'pitanga', 'jenipapo']
+
+# Lista em tupla
+frutas_tupla = tuple(frutas_nordeste)
+
+# Passo 3: Conteúdo da tupla
+print("Tupla de frutas nordestinas:", frutas_tupla)
