@@ -1,0 +1,25 @@
+# Dicionário para armazenar informações do contato:
+contato = {}
+
+# Dados do usuário:
+contato['nome'] = input("Digite o nome do contato: ")
+contato['telefone'] = input("Digite o número de telefone: ")
+contato['email'] = input("Digite o endereço de email: ")
+
+# Informações do contato
+print("\nInformações do Contato:")
+print(f"Nome: {contato['nome']}")
+print(f"Telefone: {contato['telefone']}")
+print(f"Email: {contato['email']}")
+
+__________________________________________________________________________________________________________
+# Código com os Dados:
+
+Informe o nome do contato: Rafaela Gurgel
+Informe o número de telefone: (85)999994455
+Informe o endereço de email: rafaela@email.com
+
+Informações do Contato:
+Nome: Rafaela Gurgel
+Telefone: (85)999994455
+Email: rafaela@email.com
