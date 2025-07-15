@@ -1,0 +1,51 @@
+# Armazenando os produtos
+produtos = {}
+
+# Mensagem para quem irá utilzar:
+print("Digite o nome e o preço de 5 produtos:")
+
+# Contador de loop:
+contador = 1
+
+# Se o contador for menor ou igual a 5, continua no loop:
+while contador <= 5:
+    # Pede nome do produto:
+    nome = input("Nome do produto: ")
+    
+    # Pede o preço do produto e converte para número com ponto flutuante:
+    preco = float(input("Preço do produto: "))
+    
+    # Armazena o produto e o preço:
+    produtos[nome] = preco
+    
+    # Aumenta o contador para passar para o próximo produto:
+    contador += 1
+
+# Variável para guardar o valor total da compra:
+total = 0
+
+# Para cada valor (preço) no dicionário, some ao total:
+for preco in produtos.values():
+    total += preco
+
+# Mostra total da compra
+print("\nValor total da compra: R$", total)
+_______________________________________________________________________________________
+EXEMPLO:
+
+Digite o nome e o preço de 5 produtos:
+Nome do produto: Mortadela
+Preço do produto: 2.50
+Nome do produto: Pão
+Preço do produto: 3.00
+Nome do produto: Leite
+Preço do produto: 4.00
+Nome do produto: Queijo
+Preço do produto: 10.00
+Nome do produto: Requeijão
+Preço do produto: 6.00
+
+Valor total da compra: R$ 25.5
+
+
+
