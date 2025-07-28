@@ -1,0 +1,16 @@
+import random  # Importa o módulo necessário para gerar números aleatórios
+
+def lancar_dados():
+    # Gera um número aleatório para cada dado (de 1 a 6)
+    dado1 = random.randint(1, 6)
+    dado2 = random.randint(1, 6)
+    
+    # Calcula a soma dos dois lançamentos
+    total = dado1 + dado2
+    
+    # Retorna o valor total obtido
+    return total
+
+# Exemplo de uso da função
+resultado = lancar_dados()
+print("O valor total dos dois dados é:", resultado)
