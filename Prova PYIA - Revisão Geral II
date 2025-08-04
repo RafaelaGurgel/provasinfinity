@@ -1,0 +1,6 @@
+import os  
+
+lista_de_arquivos_e_pastas = os.listdir()
+
+for item in lista_de_arquivos_e_pastas:    
+    print(item)
