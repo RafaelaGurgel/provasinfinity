@@ -1,0 +1,10 @@
+def media(a, b, c):
+  
+    soma = a + b + c  
+ 
+    media = soma / 3  
+    
+    return media
+
+
+print("A média é:", media(7, 8, 9))
